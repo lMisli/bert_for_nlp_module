@@ -1,0 +1,37 @@
+
+name: Bert module
+
+description: Select pre-trained bert
+
+inputs:
+
+  - {name: language,          type: String,         description: 'Pre-training model used language, contains "English/En", "Multilingual/Multi","Chinses/Ch". Default "En".'}
+
+  - {name: uncased,           type: Boolean,        description: 'Whther lowercase the text. Uncased means that the text has been lowercased before WordPiece tokenization, Cased means that the true case and accent markers are preserved. '}
+
+  - {name: out_model_dir,     type: String,         description: 'Directory to save the path of selected pre-trained bert model.'}
+
+
+outputs:
+
+  - {name: out_model_dir,     type: String,         description: 'Directory to save the path of selected pre-trained bert model.'}
+
+implementation:
+
+  container:
+
+
+    command: [python3, func_modules/bert_module.py]
+
+    args: [
+
+      --language,             {inputValue: language},
+
+      --uncased,              {inputValue: uncased},
+
+      --out_model_dir,        {inputValue: out_model_dir},
+
+
+      --out_model_dir_uri,    {outputPath: out_model_dir},
+
+    ]

@@ -1,0 +1,54 @@
+
+name: Split data module
+
+description: Split data to two part
+
+inputs:
+
+  - {name: input_dir,               type: String,                                             description: 'Data path to load'}
+
+  - {name: row_split_rate,          type: Float,              default: '0.7',                 description: 'The propotion of the first data part when split data by rows.'}
+
+  - {name: random,                  type: Boolean,            default: 'True',                description: 'Whether to split data randomly.'}
+
+  - {name: random_seed,             type: Integer,            default: '200',                 description: 'When random is true, it works. Default 200.'}
+
+  - {name: output_dir1,             type: String,                                             description: 'Split data part1 path to save.'}
+
+  - {name: output_dir2,             type: String,                                             description: 'Split data part2 path to save.'}
+
+
+outputs:
+
+  - {name: output_dir1,             type: String,             description: 'Split data part1 path to save.'}
+
+  - {name: output_dir2,             type: String,             description: 'Split data part2 path to save.'}
+
+implementation:
+
+  container:
+
+
+    command: [python3, func_modules/split_data_module.py]
+
+    args: [
+
+      --input_dir,            {inputValue: input_dir},
+
+      --row_split_rate,       {inputValue: row_split_rate},
+
+      --random,               {inputValue: random},
+
+      --random_seed,          {inputValue: random_seed},
+
+      --output_dir1,          {inputValue: output_dir1},
+
+      --output_dir2,          {inputValue: output_dir2},
+
+
+      --output_dir1_uri,      {outputPath: output_dir1},
+
+      --output_dir2_uri,      {outputPath: output_dir2},
+
+    ]
+

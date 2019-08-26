@@ -11,8 +11,6 @@ inputs:
 
 - {name: output_dir,              type: String,                         description: 'Directory to save trained model and results.'}
 
-- {name: bert_model,              type: String,                         description: 'Config file of selected bert model.'}
-
 - {name: added_layer_config,      type: String,                         description: 'Config file of added layers after BERT.'}
 
 - {name: train_column_names,      type: String,                         description: 'Content columns (X). Separate by " ", such as "col1 col2".'}
@@ -75,8 +73,6 @@ implementation:
       --bert_dir,                     {inputValue: bert_dir},
 
       --output_dir,                   {inputValue: output_dir},
-
-      --bert_model,                   {inputValue: bert_model},
 
       --added_layer_config,           {inputValue: added_layer_config},
 

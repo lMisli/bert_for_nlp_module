@@ -33,7 +33,7 @@ parser = argparse.ArgumentParser("run_classifier")
 parser.add_argument("--train_data", type=str, help="Train data path.")
 parser.add_argument("--bert_dir", type=str, help="Directory contains all kinds of pre-trained bert.")
 parser.add_argument("--output_dir", type=str, help="Directory to save trained model and results.")
-parser.add_argument("--bert_model", type=str, help="Config file of selected bert model.")
+# parser.add_argument("--bert_model", type=str, help="Config file of selected bert model.")
 parser.add_argument("--added_layer_config", type=str, help="Config file of added layers after BERT.")
 parser.add_argument("--train_column_names", type=str, help="Content columns (X). Separate by ' ', such as 'col1 col2'. ")
 parser.add_argument("--label_column_names", type=str, help="Label columns used to learn (Y),Separate by ' ', such as 'col1 col2'.")
@@ -73,7 +73,7 @@ def train():
   tf.logging.set_verbosity(tf.logging.INFO)
 
   args.train_data = common.parse_path(args.train_data)
-  args.bert_model = common.parse_path(args.bert_model)
+  # args.bert_model = common.parse_path(args.bert_model)
   args.added_layer_config = common.parse_path(args.added_layer_config)
 
   df = dataprocess.load_data(args.train_data)
@@ -81,10 +81,12 @@ def train():
   label_column_names = args.label_column_names.split(' ')
   label_len = len(label_column_names)
 
-  file = open(args.bert_model, 'r', encoding='utf-8')
-  sub_dir = file.read().strip('\n')
-  file.close()
-  bert_model_dir = args.bert_dir + sub_dir
+  # file = open(args.bert_model, 'r', encoding='utf-8')
+  # sub_dir = file.read().strip('\n')
+  # file.close()
+  # bert_model_dir = args.bert_dir + sub_dir
+
+  bert_model_dir = args.bert_dir
   if (args.init_checkpoint_file == None or args.init_checkpoint_file==""):
       args.init_checkpoint_file = bert_model_dir + "/bert_model.ckpt"
   tokenization.validate_case_matches_checkpoint(args.do_lower_case,
@@ -113,10 +115,10 @@ def train():
   is_per_host = tf.contrib.tpu.InputPipelineConfig.PER_HOST_V2
 
   #num_gpu_cores = 0
-  if args.use_gpu and args.num_gpu_cores == None:
-      num_gpu_cores = len([x for x in device_lib.list_local_devices() if x.device_type=='GPU'])
-  else:
+  num_gpu_cores = len([x for x in device_lib.list_local_devices() if x.device_type == 'GPU'])
+  if args.num_gpu_cores != None and args.num_gpu_cores < num_gpu_cores:
       num_gpu_cores = args.num_gpu_cores
+
   if args.use_gpu and int(num_gpu_cores) >= 2:
       tf.logging.info("Use normal RunConfig, GPU number: %d" %(num_gpu_cores))
       dist_strategy = tf.contrib.distribute.MirroredStrategy(

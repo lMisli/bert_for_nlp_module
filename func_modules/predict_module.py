@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser("run_classifier")
 parser.add_argument("--test_data", type=str, help="Test data path.")
 parser.add_argument("--bert_dir", type=str, help="Directory contains all kinds of pre-trained bert.")
 parser.add_argument("--output_dir", type=str, help="Directory to save predicted results.")
-parser.add_argument("--bert_model", type=str,  help="Config file of selected bert model.")
+#parser.add_argument("--bert_model", type=str,  help="Config file of selected bert model.")
 parser.add_argument("--added_layer_config", type=str,  help="Config file of added layers after BERT.")
 parser.add_argument("--predict_column_names", type=str, help="Colunms name used to predict,separated by ' ', such as 'col1 col2'.")
 parser.add_argument("--trained_model_dir", type=str, help="Directory saved the trained model.")
@@ -48,7 +48,7 @@ def predict():
   tf.logging.set_verbosity(tf.logging.INFO)
 
   args.test_data = common.parse_path(args.test_data)
-  args.bert_model = common.parse_path(args.bert_model)
+  #args.bert_model = common.parse_path(args.bert_model)
   args.added_layer_config = common.parse_path(args.added_layer_config)
 
   df = dataprocess.load_data(args.test_data)
@@ -60,10 +60,12 @@ def predict():
   tokenization.validate_case_matches_checkpoint(args.do_lower_case,
                                                 checkpoint_file)
 
-  file = open(args.bert_model, 'r', encoding='utf-8')
-  sub_dir = file.read().strip('\n')
-  file.close()
-  bert_model_dir = args.bert_dir + sub_dir
+  # file = open(args.bert_model, 'r', encoding='utf-8')
+  # sub_dir = file.read().strip('\n')
+  # file.close()
+  # bert_model_dir = args.bert_dir + sub_dir
+
+  bert_model_dir = args.bert_dir
 
   bert_config_file = os.path.join(bert_model_dir, "bert_config.json")
   bert_config = modeling.BertConfig.from_json_file(bert_config_file)

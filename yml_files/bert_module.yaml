@@ -9,12 +9,12 @@ inputs:
 
   - {name: uncased,           type: Boolean,        description: 'Whther lowercase the text. Uncased means that the text has been lowercased before WordPiece tokenization, Cased means that the true case and accent markers are preserved. '}
 
-  - {name: out_model_dir,     type: String,         description: 'Directory to save the path of selected pre-trained bert model.'}
+  - {name: out_model_dir,     type: String,         description: 'Directory to save the selected pre-trained bert model.'}
 
 
 outputs:
 
-  - {name: out_model_dir,     type: String,         description: 'Directory to save the path of selected pre-trained bert model.'}
+  - {name: out_model_dir,     type: String,         description: 'Directory to save the selected pre-trained bert model.'}
 
 implementation:
 

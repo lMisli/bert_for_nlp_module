@@ -1,38 +1,43 @@
 
 name: Add layer module
 
-description: Select custom layer according to NLP task
+description: Select custom layer.
 
 inputs:
 
-  - {name: label_num,       type: Integer,      description: 'Total num of labels.'}
+  - name: Layer name
+    type: String
+    description: Custom layer to choose.
+    options:
+      - regressor
+      - multi-label-classifier
+      - multi-class-classifier
+      - binary-classifier
 
-  - {name: layer_name,        type: String,       description: '"Class to choose, contains "regressor", "multi-label-classifier", "multi-class-classifier","binary-classifier".'}
 
-  - {name: output_dir,      type: String,       description: 'Directory to save custom added layer config file.'}
 
 
 outputs:
 
-  - {name: output_dir,      type: String,       description: 'Directory to save custom added layer config file.'}
+  - name: Custom layer
+    type: CustomLayerFolder
+    description: Directory to save custom added layer config file.
 
 implementation:
 
   container:
 
+    command:
+      -python3
+      -func_modules/add_layer_module.py
 
-    command: [python3, func_modules/add_layer_module.py]
+    args:
 
-    args: [
+      - --layer_name
+      - inputValue: Layer name
 
-      --label_num,        {inputValue: label_num},
-
-      --category,         {inputValue: category},
-
-      --output_dir,       {outputPath: output_dir},
+      - --output_dir
+      - outputPath: Custom layer
 
 
-      --output_dir_uri,   {outputPath: output_dir},
-
-    ]
 

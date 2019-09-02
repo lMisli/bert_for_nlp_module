@@ -1,51 +1,47 @@
 
-name: Predict module
+name: Classifier Score
 
 description: Predict results module
 
 inputs:
 
-- {name: test_data,               type: String,                         description: 'Test data path.'}
+- name: Input test data
+  type: TabularDataFolder
+  description: Test data path.
 
-- {name: bert_dir,                type: String,                         description: 'Directory contains all kinds of pre-trained bert.'}
+- name: Trained model
+  type: ModelFolder
+  description: Directory saved the trained model.
 
-- {name: output_dir,              type: String,                         description: 'Directory to save predicted results.'}
+- name: Predict column names
+  type: String
+  description: Content columns (X) used to predict. Separate by " ", such as "col1 col2".
 
-- {name: added_layer_config,      type: String,                         description: 'Config file of added layers after BERT.'}
+- name: Predict batch size
+  type: Int
+  default: 2
+  description: Batch size for predicting. Batch size for each GPU when num_gpu_cores >=2.
 
-- {name: predict_column_names,    type: String,                         description: 'Content columns (X) used to predict. Separate by " ", such as "col1 col2" .'}
+- name: Use gpu
+  type: Boolean
+  default: True
+  description: Whether to use GPU. when True the "use_tpu" is setted False.
 
-- {name: trained_model_dir,       type: String,                         description: 'Directory saved the trained model.'}
+- name: Number gpu cores
+  type: Int
+  description: Only used if `use_gpu` is True. Total number of GPU cores to use. Defaut use all avialble GPUs.
 
-- {name: do_lower_case,           type: Boolean,    default: 'True',    description: 'Whether to convert words to lowercase. Should be True for uncased models and False for cased models.'}
+- name: Use fp16
+  type: Boolean
+  default: False
+  description: Whether to use fp16.
 
-- {name: max_seq_length,          type: Integer,    default: '512',     description: 'The maximum total input sequence length after WordPiece tokenization.'}
-
-- {name: predict_batch_size,      type: Integer,    default: '16',      description: 'Batch size for predicting. Batch size for each GPU when num_gpu_cores >=2.'}
-
-- {name: iterations_per_loop,     type: Integer,    default: '10000',   description: 'How many steps to make in each estimator call.'}
-
-- {name: use_gpu,                 type: Boolean,    default: 'True',    description: 'Whether to use GPU. when True the "use_tpu" is setted False. '}
-
-- {name: num_gpu_cores,           type: Integer,                        description: 'Only used if `use_gpu` is True. Total number of GPU cores to use. Defaut use all avialble GPUs.'}
-
-- {name: use_fp16,                type: Boolean,    default: 'False',   description: 'Whether to use fp16.'}
-
-- {name: use_tpu,                 type: Boolean,    default: 'False',   description: 'Whether to use TPU.'}
-
-- {name: tpu_name,                type: String,                         description: 'The Cloud TPU to use for predicting. This should be either the name used when creating the Cloud TPU, or a grpc://ip.address.of.tpu:8470 url.'}
-
-- {name: tpu_zone,                type: String,                         description: 'GCE zone where the Cloud TPU is located in. If not specified, we will attempt to automatically detect the GCE project from metadata.'}
-
-- {name: master,                  type: String,     default: '5e-5',    description: ' TensorFlow master URL.'}
-
-- {name: num_tpu_cores,           type: Integer,    default: '8',       description: 'Only used if "use_tpu" is True. Total number of TPU cores to use.'}
-
-- {name: gcp_project,             type: String,     default: '5e-5',    description: ' Project name for the Cloud TPU-enabled project. If not specified, we will attempt to automatically detect the GCE project from metadata.'}
 
 outputs:
 
-- {name: output_dir,              type: String,                         description: 'Directory to save predicted results.'}
+- name: Output scored results
+  type: TabularDataFolder
+  description: Directory to save scored results.
 
 implementation:
 
@@ -54,48 +50,31 @@ implementation:
 
     command: [python, func_modules/predict_module.py]
 
-    args: [
+    args:
 
-      --test_data,                    {inputValue: test_data},
+      - --test_data
+      - inputValue: Input test data
 
-      --bert_dir,                     {inputValue: bert_dir},
+      - --predict_column_names
+      - inputValue: Predict column names
 
-      --output_dir,                   {inputValue: output_dir},
+      - --trained_model_dir
+      - inputValue: Trained model
 
-      --added_layer_config,           {inputValue: added_layer_config},
+      - --predict_batch_size
+      - inputValue: Predict batch size
 
-      --predict_column_names,         {inputValue: predict_column_names},
+      - --use_gpu
+      - inputValue: Use gpu
 
-      --trained_model_dir,            {inputValue: trained_model_dir},
+      - --num_gpu_cores
+      - inputValue: Number gpu cores
 
-      --do_lower_case,                {inputValue: do_lower_case},
-
-      --max_seq_length,               {inputValue: max_seq_length},
-
-      --predict_batch_size,           {inputValue: predict_batch_size},
-
-      --iterations_per_loop,          {inputValue: iterations_per_loop},
-
-      --use_gpu,                      {inputValue: use_gpu},
-
-      --num_gpu_cores,                {inputValue: num_gpu_cores},
-
-      --use_fp16,                     {inputValue: use_fp16},
-
-      --use_tpu,                      {inputValue: use_tpu},
-
-      --tpu_name,                     {inputValue: tpu_name},
-
-      --tpu_zone,                     {inputValue: tpu_zone},
-
-      --master,                       {inputValue: master},
-
-      --num_tpu_cores,                {inputValue: num_tpu_cores},
-
-      --gcp_project,                  {inputValue: gcp_project},
+      - --use_fp16
+      - inputValue: Use fp16
 
 
-      --output_dir_uri,               {outputPath: output_dir},
+      - --output_dir
+      - outputPath: Output scored results
 
-    ]
 

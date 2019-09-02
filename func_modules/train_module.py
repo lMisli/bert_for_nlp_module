@@ -19,6 +19,8 @@
 # from __future__ import print_function
 
 import os
+import shutil
+import json
 import tensorflow as tf
 from scripts import common, modeling, tokenization
 from scripts import dataprocess
@@ -107,6 +109,19 @@ def train():
   tokenizer = tokenization.FullTokenizer(
       vocab_file=vocab_file, do_lower_case=args.do_lower_case)
 
+  added_layer = common.loadJsonConfig(args.added_layer_config)
+
+  model = common.get_model(added_layer['layer_name'])
+
+  #copy file
+  shutil.copyfile(bert_config_file, os.path.join(args.output_dir, "bert_config.json"))
+  shutil.copyfile(vocab_file, os.path.join(args.output_dir, "vocab.txt"))
+
+  #add model config
+  model_config = {"do_lower_case": args.do_lower_case, "max_seq_length": args.max_seq_length, "num_labels": len(label_column_names),
+                  "layer_name": added_layer['layer_name']}
+  json.dump(model_config, open(os.path.join(args.output_dir, "model_config.json"), "w"))
+
   tpu_cluster_resolver = None
   if args.use_tpu and args.tpu_name:
     tpu_cluster_resolver = tf.contrib.cluster_resolver.TPUClusterResolver(
@@ -150,9 +165,7 @@ def train():
   num_train_steps = int(len(train_examples) / args.train_batch_size * args.num_train_epochs)
   num_warmup_steps = int(num_train_steps * args.warmup_proportion)
 
-  added_layer = common.loadJsonConfig(args.added_layer_config)
 
-  model = common.get_model(added_layer['layer_name'])
 
   model_fn = common.model_fn_builder(
       bert_config=bert_config,

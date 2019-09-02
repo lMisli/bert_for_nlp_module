@@ -5,22 +5,34 @@ description: Evaluate the predicted results
 
 inputs:
 
-  - {name: input_data,              type: String,                                         description: 'Predicted data path.'}
+  - name: Input evaluate data
+    type: TabularDataFolder
+    description: Predicted data path.
 
-  - {name: pr,                      type: Boolean,          default: 'True',              description: 'Whether to calculate precision-recall(pr).'}
+  - name: PR
+    type: Boolean
+    default: True
+    description: Whether to calculate precision-recall(pr).
 
-  - {name: roc,                     type: Boolean,          default: 'True',              description: 'Whether to calculate receiver operating characteristic(ROC).'}
+  - name: ROC
+    type: Boolean
+    default: True
+    description: Whether to calculate receiver operating characteristic(ROC).
 
-  - {name: label_columns,           type: String,                                         description: '[Optional]label columns,the order should responding to probability_columns. Separated by " " , such as "col1 col2", default="[L|l]abel*".'}
+  - name: Label column names
+    type: String
+    description: [Optional]label columns,the order should responding to probability_columns. Separated by " " , such as "col1 col2", default="[L|l]abel*".
 
-  - {name: probability_columns,     type: String,                                         description: '[Optional]probability columns, the order should responding to label columns. Separated by " " , such as "col1 col2", if None, default="[P|p]robability*".'}
-
-  - {name: output_dir,              type: String,                                         description: 'Directory to save evaluated results.'}
+  - name: Probability column names
+    type: String
+    description: [Optional]probability columns, the order should responding to label columns. Separated by " " , such as "col1 col2", if None, default="[P|p]robability*".
 
 
 outputs:
 
-  - {name: output_dir,              type: String,             description: 'Directory to save evaluated results.'}
+  - name: Output evaluate results
+    type: TabularDataFolder
+    description: Directory to save evaluated results.
 
 implementation:
 
@@ -29,23 +41,26 @@ implementation:
 
     command: [python3, func_modules/evaluate_module.py]
 
-    args: [
+    args:
 
-      --input_data,            {inputValue: input_data},
+      - --input_data
+      - inputValue: Input evaluate data
 
-      --pr,                    {inputValue: pr},
+      - --pr
+      - inputValue: PR
 
-      --roc,                   {inputValue: roc},
+      - --roc
+      - inputValue: roc
 
-      --label_columns,         {inputValue: label_columns},
+      - --label_columns
+      - inputValue: Label column names
 
-      --probability_columns,   {inputValue: probability_columns},
-
-      --output_dir,            {inputValue: output_dir},
-
-
-      --output_dir_uri,        {outputPath: output_dir},
+      - --probability_columns
+      - inputValue: Probability column names
 
 
-    ]
+      - --output_dir
+      - outputPath: Output evaluate results
+
+
 

@@ -16,15 +16,15 @@ from tensorflow.python.client import device_lib
 
 parser = argparse.ArgumentParser("run_classifier")
 parser.add_argument("--test_data", type=str, help="Test data path.")
-parser.add_argument("--bert_dir", type=str, help="Directory contains all kinds of pre-trained bert.")
+#parser.add_argument("--bert_dir", type=str, help="Directory contains all kinds of pre-trained bert.")
 parser.add_argument("--output_dir", type=str, help="Directory to save predicted results.")
 #parser.add_argument("--bert_model", type=str,  help="Config file of selected bert model.")
-parser.add_argument("--added_layer_config", type=str,  help="Config file of added layers after BERT.")
+#parser.add_argument("--added_layer_config", type=str,  help="Config file of added layers after BERT.")
 parser.add_argument("--predict_column_names", type=str, help="Colunms name used to predict,separated by ' ', such as 'col1 col2'.")
 parser.add_argument("--trained_model_dir", type=str, help="Directory saved the trained model.")
-parser.add_argument("--do_lower_case", type=bool, default=True, help="Whether to convert words to lowercase. Should be True for uncased models and False for cased models.")
-parser.add_argument("--max_seq_length",type=int, default=512,  help="The maximum total input sequence length after WordPiece tokenization."
-                         "Sequences longer than this will be truncated, and sequences shorter than this will be padded.")
+#parser.add_argument("--do_lower_case", type=bool, default=True, help="Whether to convert words to lowercase. Should be True for uncased models and False for cased models.")
+#parser.add_argument("--max_seq_length",type=int, default=512,  help="The maximum total input sequence length after WordPiece tokenization."
+#                         "Sequences longer than this will be truncated, and sequences shorter than this will be padded.")
 parser.add_argument("--predict_batch_size", type=int, default=4, help="Batch size for predicting. Batch size for each GPU when num_gpu_cores >=2.")
 parser.add_argument("--iterations_per_loop", type=int, default=10000, help= "How many steps to make in each estimator call.")
 parser.add_argument("--use_gpu", type=bool, default=True, help="Whether to use GPU. when True the 'use_tpu' is setted False. ")
@@ -48,8 +48,8 @@ def predict():
   tf.logging.set_verbosity(tf.logging.INFO)
 
   args.test_data = common.parse_path(args.test_data)
-  #args.bert_model = common.parse_path(args.bert_model)
-  args.added_layer_config = common.parse_path(args.added_layer_config)
+  model_config = common.loadJsonConfig(os.path.join(args.trained_model_dir, "model_config.json"))
+  #args.added_layer_config = common.parse_path(args.added_layer_config)
 
   df = dataprocess.load_data(args.test_data)
   test_column_names = args.predict_column_names.split(' ')
@@ -57,7 +57,7 @@ def predict():
   ckpt = tf.train.get_checkpoint_state(args.trained_model_dir)
   checkpoint_file = ckpt.model_checkpoint_path
 
-  tokenization.validate_case_matches_checkpoint(args.do_lower_case,
+  tokenization.validate_case_matches_checkpoint(model_config['do_lower_case'],
                                                 checkpoint_file)
 
   # file = open(args.bert_model, 'r', encoding='utf-8')
@@ -65,23 +65,23 @@ def predict():
   # file.close()
   # bert_model_dir = args.bert_dir + sub_dir
 
-  bert_model_dir = args.bert_dir
+  #bert_model_dir = args.bert_dir
 
-  bert_config_file = os.path.join(bert_model_dir, "bert_config.json")
+  bert_config_file = os.path.join(args.trained_model_dir, "bert_config.json")
   bert_config = modeling.BertConfig.from_json_file(bert_config_file)
 
-  if args.max_seq_length > bert_config.max_position_embeddings:
+  if model_config['max_seq_length'] > bert_config.max_position_embeddings:
     raise ValueError(
         "Cannot use sequence length %d because the BERT model "
         "was only trained up to sequence length %d" %
-        (args.max_seq_length, bert_config.max_position_embeddings))
+        (model_config['max_seq_length'], bert_config.max_position_embeddings))
 
   tf.gfile.MakeDirs(args.output_dir)
   processor = common.toxicCommentProcessor()
 
-  vocab_file = os.path.join(bert_model_dir, "vocab.txt")
+  vocab_file = os.path.join(args.trained_model_dir, "vocab.txt")
   tokenizer = tokenization.FullTokenizer(
-      vocab_file=vocab_file, do_lower_case=args.do_lower_case)
+      vocab_file=vocab_file, do_lower_case=model_config['do_lower_case'])
 
   tpu_cluster_resolver = None
   if args.use_tpu and args.tpu_name:
@@ -118,11 +118,11 @@ def predict():
   num_train_steps = None
   num_warmup_steps = None
   learning_rate = None
-  added_layer = common.loadJsonConfig(args.added_layer_config)
+  #added_layer = common.loadJsonConfig(args.added_layer_config)
 
-  model = common.get_model(added_layer['layer_name'])
+  model = common.get_model(model_config['layer_name'])
   # model = common.get_model(args.add_layer)
-  label_num = added_layer['label_num']
+  label_num = model_config['num_labels']
   model_fn = common.model_fn_builder(
       bert_config=bert_config,
       is_training_bert = False,
@@ -168,7 +168,7 @@ def predict():
 
   predict_file = os.path.join(args.output_dir, "predict.tf_record")
   if not os.path.isfile(predict_file):
-      common.file_based_convert_examples_to_features(predict_examples, args.max_seq_length, tokenizer, predict_file)
+      common.file_based_convert_examples_to_features(predict_examples, model_config['max_seq_length'], tokenizer, predict_file)
 
   tf.logging.info("***** Running prediction*****")
   tf.logging.info("  Num examples = %d (%d actual, %d padding)",
@@ -179,7 +179,7 @@ def predict():
   predict_drop_remainder = True if args.use_tpu else False
   predict_input_fn = common.file_based_input_fn_builder(
       input_file=predict_file,
-      seq_length=args.max_seq_length,
+      seq_length=model_config['max_seq_length'],
       label_length= label_num,
       is_training=False,
       drop_remainder=predict_drop_remainder,

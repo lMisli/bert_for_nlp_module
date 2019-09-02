@@ -1,127 +1,153 @@
 
-name: Train module
+name: Classifier Train
 
 description: Train model module
 
 inputs:
 
-- {name: train_data,              type: String,                         description: 'Train data path.'}
+- name: Input train data
+  type: TabularDataFolder
+  description: Train data path.
 
-- {name: bert_dir,                type: String,                         description: 'Directory contains all kinds of pre-trained bert.'}
+- name: Pre-trained BERT
+  type: ModelFolder
+  description: Directory contains all kinds of pre-trained bert.
 
-- {name: output_dir,              type: String,                         description: 'Directory to save trained model and results.'}
 
-- {name: added_layer_config,      type: String,                         description: 'Config file of added layers after BERT.'}
+- name: Custom layer
+  type: CustomLayerFolder
+  description: Directory of custom added layer config file.
 
-- {name: train_column_names,      type: String,                         description: 'Content columns (X). Separate by " ", such as "col1 col2".'}
+- name: Train column names
+  type: String
+  description: Content columns (X). Separate by " ", such as "col1 col2".
 
-- {name: label_column_names,      type: String,                         description: 'Label columns used to learn (Y),Separate by " ", such as "col1 col2".'}
+- name: Label column name
+  type: String
+  description: Label columns used to learn (Y),Separate by " ", such as "col1 col2".
 
-- {name: init_checkpoint_file,    type: String,                         description: '[Optional]Init checkponit file, default is the bert_model init checkpoint.'}
 
-- {name: do_lower_case,           type: Boolean,    default: 'True',    description: 'Whether to convert words to lowercase. Should be True for uncased models and False for cased models.'}
+- name: Do lower case
+  type: Boolean
+  default: True
+  description: Whether to convert words to lowercase. Should be True for uncased models and False for cased models.
 
-- {name: is_training,             type: Boolean,    default: 'False',   description: 'Whether to train bert model. Default False.'}
+- name: Training BERT
+  type: Boolean
+  default: False
+  description: Whether to train bert model. Default False.
 
-- {name: max_seq_length,          type: Integer,    default: '512',     description: 'The maximum total input sequence length after WordPiece tokenization.'}
+- name: Maximum sequence length
+  type: Int
+  default: 512
+  description: The maximum total input sequence length after WordPiece tokenization.
 
-- {name: num_train_epochs,        type: Float,      default: '3.0',     description: 'Total number of training epochs to perform.'}
+- name: Number of training epochs
+  type: Float
+  default: 3.0
+  description: Total number of training epochs to perform.
 
-- {name: train_batch_size,        type: Integer,    default: '16',      description: 'Batch size for training. Batch size for each GPU when num_gpu_cores >=2.'}
+- name: Training batch size
+  type: Int
+  default: 2
+  description: Batch size for training. Batch size for each GPU when num_gpu_cores >=2.
 
-- {name: learning_rate,           type: Float,      default: '5e-5',    description: 'The initial learning rate for Adam.'}
+- name: Learning rate
+  type: Float
+  default: 5e-5
+  description: The initial learning rate for Adam.
 
-- {name: warmup_proportion,       type: Float,      default: '0.1',     description: 'Proportion of training to perform linear learning rate warmup for. E.g., 0.1 = 10% of training.'}
+- name: Warmup proportion
+  type: Float
+  default: 0.1
+  description: Proportion of training to perform linear learning rate warmup for. E.g., 0.1 = 10% of training.
 
-- {name: save_checkpoints_steps,  type: Integer,    default: '10000',   description: 'How often to save the model checkpoint.'}
+- name: Save checkpoints steps
+  type: Int
+  default: 10000
+  description: How often to save the model checkpoint.
 
-- {name: iterations_per_loop,     type: Integer,    default: '10000',   description: 'How many steps to make in each estimator call.'}
+- name: Use gpu
+  type: Boolean
+  default: True
+  description: Whether to use GPU. when True the "use_tpu" is setted False.
 
-- {name: use_gpu,                 type: Boolean,    default: 'True',    description: 'Whether to use GPU. when True the "use_tpu" is setted False. '}
+- name: Number gpu cores
+  type: Integer
+  description: Only used if `use_gpu` is True. Total number of GPU cores to use. Defaut use all avialble GPUs.
 
-- {name: num_gpu_cores,           type: Integer,                        description: 'Only used if `use_gpu` is True. Total number of GPU cores to use. Defaut use all avialble GPUs.'}
-
-- {name: use_fp16,                type: Boolean,    default: 'False',   description: 'Whether to use fp16.'}
-
-- {name: use_tpu,                 type: Boolean,    default: 'False',   description: 'Whether to use TPU.'}
-
-- {name: tpu_name,                type: String,                         description: 'The Cloud TPU to use for training. This should be either the name used when creating the Cloud TPU, or a grpc://ip.address.of.tpu:8470 url.'}
-
-- {name: tpu_zone,                type: String,                         description: 'GCE zone where the Cloud TPU is located in. If not specified, we will attempt to automatically detect the GCE project from metadata.'}
-
-- {name: master,                  type: String,     default: '5e-5',    description: ' TensorFlow master URL.'}
-
-- {name: num_tpu_cores,           type: Integer,    default: '8',       description: 'Only used if "use_tpu" is True. Total number of TPU cores to use.'}
-
-- {name: gcp_project,             type: String,     default: '5e-5',    description: ' Project name for the Cloud TPU-enabled project. If not specified, we will attempt to automatically detect the GCE project from metadata.'}
+- name: Use fp16
+  type: Boolean
+  default: False
+  description: Whether to use fp16.
 
 outputs:
 
-- {name: output_dir,              type: String,                         description: 'Directory to save trained model and results.'}
+- name: Output model
+  type: ModelFolder
+  description: Directory to save trained model and results.
 
 implementation:
 
   container:
 
-
     command: [python, func_modules/train_module.py]
 
-    args: [
+    args:
 
-      --train_data,                   {inputValue: train_data},
+      - --train_data
+      - inputValue: Input train data
 
-      --bert_dir,                     {inputValue: bert_dir},
+      - --bert_dir
+      - inputValue: Pre-trained BERT
 
-      --output_dir,                   {inputValue: output_dir},
+      - --added_layer_config
+      - inputValue: Custom layer
 
-      --added_layer_config,           {inputValue: added_layer_config},
+      - --train_column_names
+      - inputValue: Train column names
 
-      --train_column_names,           {inputValue: train_column_names},
+      - --label_column_names
+      - inputValue: Label column name
 
-      --label_column_names,           {inputValue: label_column_names},
+      - --do_lower_case
+      - inputValue: Do lower case
 
-      --init_checkpoint_file,         {inputValue: init_checkpoint_file},
+      - --is_training
+      - inputValue: Training BERT
 
-      --do_lower_case,                {inputValue: do_lower_case},
+      - --max_seq_length
+      - inputValue: Maximum sequence length
 
-      --is_training,                  {inputValue: is_training},
+      - --num_train_epochs
+      - inputValue: Number of training epochs
 
-      --max_seq_length,               {inputValue: max_seq_length},
+      - --train_batch_size
+      - inputValue: Training batch size
 
-      --num_train_epochs,             {inputValue: num_train_epochs},
+      - --learning_rate
+      - inputValue: Learning rate
 
-      --train_batch_size,             {inputValue: train_batch_size},
+      - --warmup_proportion
+      - inputValue: Warmup proportion
 
-      --learning_rate,                {inputValue: learning_rate},
+      - --save_checkpoints_steps
+      - inputValue: Save checkpoints steps
 
-      --warmup_proportion,            {inputValue: warmup_proportion},
+      - --use_gpu
+      - inputValue: Use gpu
 
-      --save_checkpoints_steps,       {inputValue: save_checkpoints_steps},
+      - --num_gpu_cores
+      - inputValue: Number gpu cores
 
-      --iterations_per_loop,          {inputValue: iterations_per_loop},
-
-      --use_gpu,                      {inputValue: use_gpu},
-
-      --num_gpu_cores,                {inputValue: num_gpu_cores},
-
-      --use_fp16,                     {inputValue: use_fp16},
-
-      --use_tpu,                      {inputValue: use_tpu},
-
-      --tpu_name,                     {inputValue: tpu_name},
-
-      --tpu_zone,                     {inputValue: tpu_zone},
-
-      --master,                       {inputValue: master},
-
-      --num_tpu_cores,                {inputValue: num_tpu_cores},
-
-      --gcp_project,                  {inputValue: gcp_project},
+      - --use_fp16
+      - inputValue: Use fp16
 
 
-      --output_dir_uri,               {outputPath: output_dir},
+      - --output_dir
+      - outputPath: Output model
 
-    ]
+
 
 
 

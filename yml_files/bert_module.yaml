@@ -1,4 +1,4 @@
-name: Import BERT model
+name: Import BERT Model
 id: f6f0db49-1532-4757-a484-6323de1b1a66
 category: Import Data\Import Model
 description: Select pre-trained BERT.

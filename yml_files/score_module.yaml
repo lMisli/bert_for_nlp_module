@@ -13,7 +13,7 @@ inputs:
   description: Directory saved the trained model.
 - name: Predict column names
   type: String
-  defaut: 'comment_text'
+  defaut: comment_text
   description: Content columns (X) used to predict. Separate by space, such as col1 col2.
 - name: Predict batch size
   type: Int
@@ -22,11 +22,11 @@ inputs:
 - name: Use gpu
   type: Boolean
   default: True
-  description: Whether to use GPU. when True the use_tpu is setted False.
+  description: Whether to use GPU. when True the `use_gpu` is setted False.
 - name: Number gpu cores
   type: Int
   default: 4
-  description: Only used if use_gpu is True. Total number of GPU cores to use. Defaut use all avialble GPUs.
+  description: Only used if `use_gpu` is True. Total number of GPU cores to use. Defaut use all avialble GPUs.
 - name: Use fp16
   type: Boolean
   default: False
@@ -41,21 +41,21 @@ implementation:
       runConfig:
         baseDockerImage: mcr.microsoft.com/azureml/base-gpu:intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04
         gpuSupport: True
-        conda:
-          name: project_environment
-          channels:
-            - defaults
-          dependencies:
-            - python=3.6.2
-            - pip:
-                - azureml==0.2.7
-                - azureml-core==1.0.43
-                - tensorflow-gpu
-                - pandas
-                - numpy
-                - nltk
-                - matplotlib
-                - git+https://github.com/lMisli/bert_for_nlp_module.git
+      conda:
+        name: project_environment
+        channels:
+        - defaults
+        dependencies:
+        - python=3.6.2
+        - pip:
+          - azureml==0.2.7
+          - azureml-core==1.0.43
+          - tensorflow-gpu
+          - pandas
+          - numpy
+          - nltk
+          - matplotlib
+          - git+https://github.com/lMisli/bert_for_nlp_module.git
     command:
     - python
     - -m

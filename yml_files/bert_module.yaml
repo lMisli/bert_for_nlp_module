@@ -25,21 +25,21 @@ implementation:
       runConfig:
         baseDockerImage: mcr.microsoft.com/azureml/base-gpu:intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04
         gpuSupport: True
-        conda:
-          name: project_environment
-          channels:
-            - defaults
-          dependencies:
-            - python=3.6.2
-            - pip:
-                - azureml==0.2.7
-                - azureml-core==1.0.43
-                - tensorflow-gpu
-                - pandas
-                - numpy
-                - nltk
-                - matplotlib
-                - git+https://github.com/lMisli/bert_for_nlp_module.git
+      conda:
+        name: project_environment
+        channels:
+        - defaults
+        dependencies:
+        - python=3.6.2
+        - pip:
+          - azureml==0.2.7
+          - azureml-core==1.0.43
+          - tensorflow-gpu
+          - pandas
+          - numpy
+          - nltk
+          - matplotlib
+          - git+https://github.com/lMisli/bert_for_nlp_module.git
     command:
     - python
     - -m

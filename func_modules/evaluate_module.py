@@ -33,11 +33,11 @@ def evaluate():
     pred = dataprocess.load_data(args.input_data)
 
 
-    if args.label_columns == None or args.label_columns == "":
+    if args.label_columns == None or args.label_columns == "" or args.label_columns == "null":
         label_columns = [x for x in pred.columns if re.match('[L|l]abel*', x) != None]
     else:
         label_columns = args.label_columns.split(' ')
-    if args.probability_columns == None or args.probability_columns == "":
+    if args.probability_columns == None or args.probability_columns == "" or args.label_columns == "null":
         probability_columns = [x for x in pred.columns if re.match('[P|p]robability*', x) != None]
     else:
         probability_columns = args.probability_columns.split(' ')

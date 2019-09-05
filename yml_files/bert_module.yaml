@@ -5,12 +5,12 @@ description: Select pre-trained BERT.
 inputs:
   - name: Language
     type: Mode
-    default: 'En'
+    default: 'English'
     description: Pre-training model used language.
     options:
-      - 'English/En'
-      - 'Multilingual/Multi'
-      - 'Chinses/Ch'
+      - 'English'
+      - 'Multilingual'
+      - 'Chinses'
   - name: Uncased
     type: Boolean
     default: True

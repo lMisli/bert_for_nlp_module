@@ -4,9 +4,9 @@ category: Machine Learning\Train
 description: Train model module
 inputs:
 - name: Input train data
-  type: TabularDataFolder
+  type: GenericFolder
   port: True
-  description: Train data path.
+  description: Train data folder path, the data filename in this fold should be data.
 - name: Pre-trained BERT
   type: ModelFolder
   port: True

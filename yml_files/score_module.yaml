@@ -4,9 +4,9 @@ category: Machine Learning\Score
 description: Predict results module
 inputs:
 - name: Input test data
-  type: TabularDataFolder
+  type: GenericFolder
   port: True
-  description: Test data path.
+  description: Test data folder path, the data filename in this fold should be data.
 - name: Trained model
   type: ModelFolder
   port: True
@@ -31,7 +31,7 @@ inputs:
   description: Whether to use fp16.
 outputs:
 - name: Output scored results
-  type: TabularDataFolder
+  type: GenericFolder
   description: Directory to save scored results.
 implementation:
   container:

@@ -4,9 +4,9 @@ category: Machine Learning\Evaluate
 description: Evaluate the predicted results
 inputs:
   - name: Input evaluate data
-    type: TabularDataFolder
+    type: GenericFolder
     port: True
-    description: Predicted data path.
+    description: Predicted data folder path, the data filename in this fold should be data.
   - name: PR
     type: Boolean
     default: True
@@ -23,7 +23,7 @@ inputs:
     description: probability columns, the order should responding to label columns. Separated by space , such as col1 col2, if None, default=probability*.
 outputs:
   - name: Output evaluate results
-    type: TabularDataFolder
+    type: GenericFolder
     description: Directory to save evaluated results.
 implementation:
   container:

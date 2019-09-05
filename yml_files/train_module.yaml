@@ -24,11 +24,11 @@ inputs:
 
 - name: Train column names
   type: String
-  description: Content columns (X). Separate by " ", such as "col1 col2".
+  description: Content columns (X). Separate by space, such as col1 col2.
 
 - name: Label column name
   type: String
-  description: Label columns used to learn (Y),Separate by " ", such as "col1 col2".
+  description: Label columns used to learn (Y),Separate by space, such as col1 col2.
 
 
 - name: Do lower case

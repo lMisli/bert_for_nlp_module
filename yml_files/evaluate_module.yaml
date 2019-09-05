@@ -23,11 +23,11 @@ inputs:
 
   - name: Label column names
     type: String
-    description: [Optional]label columns,the order should responding to probability_columns. Separated by " " , such as "col1 col2", default="[L|l]abel*".
+    description: label columns,the order should responding to probability_columns. Separated by space , such as col1 col2, default=label*.
 
   - name: Probability column names
     type: String
-    description: [Optional]probability columns, the order should responding to label columns. Separated by " " , such as "col1 col2", if None, default="[P|p]robability*".
+    description: probability columns, the order should responding to label columns. Separated by space , such as col1 col2, if None, default=probability*.
 
 
 outputs:

@@ -18,7 +18,7 @@ inputs:
 
 - name: Predict column names
   type: String
-  description: Content columns (X) used to predict. Separate by " ", such as "col1 col2".
+  description: Content columns (X) used to predict. Separate by space, such as col1 col2.
 
 - name: Predict batch size
   type: Int
@@ -28,11 +28,11 @@ inputs:
 - name: Use gpu
   type: Boolean
   default: True
-  description: Whether to use GPU. when True the "use_tpu" is setted False.
+  description: Whether to use GPU. when True the use_tpu is setted False.
 
 - name: Number gpu cores
   type: Int
-  description: Only used if `use_gpu` is True. Total number of GPU cores to use. Defaut use all avialble GPUs.
+  description: Only used if use_gpu is True. Total number of GPU cores to use. Defaut use all avialble GPUs.
 
 - name: Use fp16
   type: Boolean

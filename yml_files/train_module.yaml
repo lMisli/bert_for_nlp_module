@@ -17,9 +17,11 @@ inputs:
   description: Directory of custom added layer config file.
 - name: Train column names
   type: String
+  defaut: 'comment_text'
   description: Content columns (X). Separate by space, such as col1 col2.
 - name: Label column name
   type: String
+  default: 'toxic severe_toxic obscene threat insult identity_hate'
   description: Label columns used to learn (Y),Separate by space, such as col1 col2.
 - name: Do lower case
   type: Boolean

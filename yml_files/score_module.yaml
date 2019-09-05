@@ -13,6 +13,7 @@ inputs:
   description: Directory saved the trained model.
 - name: Predict column names
   type: String
+  defaut: 'comment_text'
   description: Content columns (X) used to predict. Separate by space, such as col1 col2.
 - name: Predict batch size
   type: Int
@@ -24,6 +25,7 @@ inputs:
   description: Whether to use GPU. when True the use_tpu is setted False.
 - name: Number gpu cores
   type: Int
+  default: 4
   description: Only used if use_gpu is True. Total number of GPU cores to use. Defaut use all avialble GPUs.
 - name: Use fp16
   type: Boolean

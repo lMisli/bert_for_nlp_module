@@ -4,13 +4,14 @@ category: Import Data\Import Model
 description: Select custom layer.
 inputs:
   - name: Layer name
-    type: String
+    type: Mode
+    defaut: 'multi-label-classifier'
     description: Custom layer to choose.
     options:
-      - regressor
-      - multi-label-classifier
-      - multi-class-classifier
-      - binary-classifier
+      - 'regressor'
+      - 'multi-label-classifier'
+      - 'multi-class-classifier'
+      - 'binary-classifier'
 outputs:
   - name: Custom layer
     type: GenericFolder

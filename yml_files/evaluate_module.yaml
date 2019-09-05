@@ -17,10 +17,12 @@ inputs:
     description: Whether to calculate receiver operating characteristic(ROC).
   - name: Label column names
     type: String
-    description: label columns,the order should responding to probability_columns. Separated by space , such as col1 col2, default=label*.
+    default: ''
+    description: Optional, label columns,the order should responding to probability_columns. Separated by space , such as col1 col2, default=label*.
   - name: Probability column names
     type: String
-    description: probability columns, the order should responding to label columns. Separated by space , such as col1 col2, if None, default=probability*.
+    default: ''
+    description: Optional, probability columns, the order should responding to label columns. Separated by space , such as col1 col2, if None, default=probability*.
 outputs:
   - name: Output evaluate results
     type: GenericFolder

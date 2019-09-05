@@ -4,15 +4,16 @@ category: Import Data\Import Model
 description: Select pre-trained BERT.
 inputs:
   - name: Language
-    type: String
-    default: En
+    type: Mode
+    default: 'En'
     description: Pre-training model used language.
     options:
-      - English/En
-      - Multilingual/Multi
-      - Chinses/Ch
+      - 'English/En'
+      - 'Multilingual/Multi'
+      - 'Chinses/Ch'
   - name: Uncased
     type: Boolean
+    default: True
     description: Wether lowercase the text.
 outputs:
   - name: Pre-trained BERT

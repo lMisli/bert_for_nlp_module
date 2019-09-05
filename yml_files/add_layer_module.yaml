@@ -1,7 +1,7 @@
 
 name: Add layer module
 id: f04411dd-94fd-4cf1-9ddd-8f47e5b6f7b9
-category: Machine Learning\Initialize Model
+category: Machine Learning\Initialize Model\BERT Classifier
 description: Select custom layer.
 
 inputs:

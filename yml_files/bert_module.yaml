@@ -1,7 +1,7 @@
 
 name: BERT module
 id: f6f0db49-1532-4757-a484-6323de1b1a66
-category: Machine Learning\Initialize Model
+category: Machine Learning\Initialize Model\BERT Classifier
 description: Select pre-trained BERT.
 
 inputs:

@@ -1,53 +1,39 @@
-
-name: BERT-Classifier Score
+name: BERT Classifier Score
 id: f078fdb7-f715-401f-9cff-7d4af80ab6ad
 category: Machine Learning\Score
 description: Predict results module
-
 inputs:
-
 - name: Input test data
   type: TabularDataFolder
   port: True
   description: Test data path.
-
 - name: Trained model
   type: ModelFolder
   port: True
   description: Directory saved the trained model.
-
 - name: Predict column names
   type: String
   description: Content columns (X) used to predict. Separate by space, such as col1 col2.
-
 - name: Predict batch size
   type: Int
   default: 2
   description: Batch size for predicting. Batch size for each GPU when num_gpu_cores >=2.
-
 - name: Use gpu
   type: Boolean
   default: True
   description: Whether to use GPU. when True the use_tpu is setted False.
-
 - name: Number gpu cores
   type: Int
   description: Only used if use_gpu is True. Total number of GPU cores to use. Defaut use all avialble GPUs.
-
 - name: Use fp16
   type: Boolean
   default: False
   description: Whether to use fp16.
-
-
 outputs:
-
 - name: Output scored results
   type: TabularDataFolder
   description: Directory to save scored results.
-
 implementation:
-
   container:
     container:
       runConfig:
@@ -68,36 +54,25 @@ implementation:
                 - nltk
                 - matplotlib
                 - git+https://github.com/lMisli/bert_for_nlp_module.git
-
     command:
     - python
     - -m
     - func_modules.predict_module
-
     args:
-
       - --test_data
       - inputValue: Input test data
-
       - --predict_column_names
       - inputValue: Predict column names
-
       - --trained_model_dir
       - inputValue: Trained model
-
       - --predict_batch_size
       - inputValue: Predict batch size
-
       - --use_gpu
       - inputValue: Use gpu
-
       - --num_gpu_cores
       - inputValue: Number gpu cores
-
       - --use_fp16
       - inputValue: Use fp16
-
-
       - --output_dir
       - outputPath: Output scored results
 

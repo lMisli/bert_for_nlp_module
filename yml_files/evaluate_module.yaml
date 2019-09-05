@@ -1,43 +1,31 @@
-
-name: Evaluate module
+name: BERT Classifier Evaluate
 id: eda7ddc3-8e60-4878-a61a-d099c57f8fa5
 category: Machine Learning\Evaluate
 description: Evaluate the predicted results
-
 inputs:
-
   - name: Input evaluate data
     type: TabularDataFolder
     port: True
     description: Predicted data path.
-
   - name: PR
     type: Boolean
     default: True
     description: Whether to calculate precision-recall(pr).
-
   - name: ROC
     type: Boolean
     default: True
     description: Whether to calculate receiver operating characteristic(ROC).
-
   - name: Label column names
     type: String
     description: label columns,the order should responding to probability_columns. Separated by space , such as col1 col2, default=label*.
-
   - name: Probability column names
     type: String
     description: probability columns, the order should responding to label columns. Separated by space , such as col1 col2, if None, default=probability*.
-
-
 outputs:
-
   - name: Output evaluate results
     type: TabularDataFolder
     description: Directory to save evaluated results.
-
 implementation:
-
   container:
     container:
       runConfig:
@@ -58,30 +46,21 @@ implementation:
                 - nltk
                 - matplotlib
                 - git+https://github.com/lMisli/bert_for_nlp_module.git
-
     command:
     - python
     - -m
     - func_modules.evaluate_module
-
     args:
-
       - --input_data
       - inputValue: Input evaluate data
-
       - --pr
       - inputValue: PR
-
       - --roc
       - inputValue: roc
-
       - --label_columns
       - inputValue: Label column names
-
       - --probability_columns
       - inputValue: Probability column names
-
-
       - --output_dir
       - outputPath: Output evaluate results
 

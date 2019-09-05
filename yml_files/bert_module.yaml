@@ -1,11 +1,8 @@
-
-name: BERT module
+name: Import BERT model
 id: f6f0db49-1532-4757-a484-6323de1b1a66
-category: Machine Learning\Initialize Model\BERT Classifier
+category: Import Data\Import Model
 description: Select pre-trained BERT.
-
 inputs:
-
   - name: Language
     type: String
     default: En
@@ -14,22 +11,15 @@ inputs:
       - English/En
       - Multilingual/Multi
       - Chinses/Ch
-
   - name: Uncased
     type: Boolean
-    description: Wether lowercase the text. Uncased means that the text has been lowercased before WordPiece tokenization, Cased means that the true case and accent markers are preserved.
-
-
+    description: Wether lowercase the text.
 outputs:
-
   - name: Pre-trained BERT
     type: ModelFolder
     description: Directory to save the selected pre-trained bert model.
-
 implementation:
-
   container:
-
     container:
       runConfig:
         baseDockerImage: mcr.microsoft.com/azureml/base-gpu:intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04
@@ -49,22 +39,15 @@ implementation:
                 - nltk
                 - matplotlib
                 - git+https://github.com/lMisli/bert_for_nlp_module.git
-
     command:
     - python
     - -m
     - func_modules.bert_url_module
-
     args:
-
       - --language
       - inputValue: Language
-
       - --uncased
       - inputValue: Uncased
-
-
-
       - --out_model_dir
       - outputPath: Pre-trained BERT
 

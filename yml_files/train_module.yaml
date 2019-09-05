@@ -1,98 +1,74 @@
-
-name: BERT-Classifier Train
+name: BERT Classifier Train
 id: 2e3ac9ee-8175-40fb-8d70-3b37ff6d9307
 category: Machine Learning\Train
 description: Train model module
-
 inputs:
-
 - name: Input train data
   type: TabularDataFolder
   port: True
   description: Train data path.
-
 - name: Pre-trained BERT
   type: ModelFolder
   port: True
   description: Directory contains all kinds of pre-trained bert.
-
-
 - name: Custom layer
   type: GenericFolder
   port: True
   description: Directory of custom added layer config file.
-
 - name: Train column names
   type: String
   description: Content columns (X). Separate by space, such as col1 col2.
-
 - name: Label column name
   type: String
   description: Label columns used to learn (Y),Separate by space, such as col1 col2.
-
-
 - name: Do lower case
   type: Boolean
   default: True
   description: Whether to convert words to lowercase. Should be True for uncased models and False for cased models.
-
 - name: Training BERT
   type: Boolean
   default: False
   description: Whether to train bert model. Default False.
-
 - name: Maximum sequence length
   type: Int
   default: 512
   description: The maximum total input sequence length after WordPiece tokenization.
-
 - name: Number of training epochs
   type: Float
   default: 3.0
   description: Total number of training epochs to perform.
-
 - name: Training batch size
   type: Int
   default: 2
   description: Batch size for training. Batch size for each GPU when num_gpu_cores >=2.
-
 - name: Learning rate
   type: Float
   default: 5e-5
   description: The initial learning rate for Adam.
-
 - name: Warmup proportion
   type: Float
   default: 0.1
   description: Proportion of training to perform linear learning rate warmup for. E.g., 0.1 = 10% of training.
-
 - name: Save checkpoints steps
   type: Int
   default: 10000
   description: How often to save the model checkpoint.
-
 - name: Use gpu
   type: Boolean
   default: True
   description: Whether to use GPU. when True the "use_tpu" is setted False.
-
 - name: Number gpu cores
   type: Integer
   description: Only used if `use_gpu` is True. Total number of GPU cores to use. Defaut use all avialble GPUs.
-
 - name: Use fp16
   type: Boolean
   default: False
   description: Whether to use fp16.
-
 outputs:
-
 - name: Output model
   type: ModelFolder
   description: Directory to save trained model and results.
-
 implementation:
-
   container:
     runConfig:
       baseDockerImage: mcr.microsoft.com/azureml/base-gpu:intelmpi2018.3-cuda10.0-cudnn7-ubuntu16.04
@@ -112,64 +88,43 @@ implementation:
               - nltk
               - matplotlib
               - git+https://github.com/lMisli/bert_for_nlp_module.git
-
-
     command:
     - python
     - -m
     - func_modules.train_module
-
     args:
-
       - --train_data
       - inputValue: Input train data
-
       - --bert_dir
       - inputValue: Pre-trained BERT
-
       - --added_layer_config
       - inputValue: Custom layer
-
       - --train_column_names
       - inputValue: Train column names
-
       - --label_column_names
       - inputValue: Label column name
-
       - --do_lower_case
       - inputValue: Do lower case
-
       - --is_training
       - inputValue: Training BERT
-
       - --max_seq_length
       - inputValue: Maximum sequence length
-
       - --num_train_epochs
       - inputValue: Number of training epochs
-
       - --train_batch_size
       - inputValue: Training batch size
-
       - --learning_rate
       - inputValue: Learning rate
-
       - --warmup_proportion
       - inputValue: Warmup proportion
-
       - --save_checkpoints_steps
       - inputValue: Save checkpoints steps
-
       - --use_gpu
       - inputValue: Use gpu
-
       - --num_gpu_cores
       - inputValue: Number gpu cores
-
       - --use_fp16
       - inputValue: Use fp16
-
-
       - --output_dir
       - outputPath: Output model
 

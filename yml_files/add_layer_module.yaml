@@ -1,11 +1,8 @@
-
-name: Add layer module
+name: Add  BERT Classifier layer
 id: f04411dd-94fd-4cf1-9ddd-8f47e5b6f7b9
-category: Machine Learning\Initialize Model\BERT Classifier
+category: Import Data\Import Model
 description: Select custom layer.
-
 inputs:
-
   - name: Layer name
     type: String
     description: Custom layer to choose.
@@ -14,18 +11,11 @@ inputs:
       - multi-label-classifier
       - multi-class-classifier
       - binary-classifier
-
-
-
-
 outputs:
-
   - name: Custom layer
     type: GenericFolder
     description: Directory to save custom added layer config file.
-
 implementation:
-
   container:
     container:
       runConfig:
@@ -50,12 +40,9 @@ implementation:
       - python
       - -m
       - func_modules.add_layer_module
-
     args:
-
       - --layer_name
       - inputValue: Layer name
-
       - --output_dir
       - outputPath: Custom layer
 

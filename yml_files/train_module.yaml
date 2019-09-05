@@ -61,6 +61,7 @@ inputs:
   description: Whether to use GPU. when True the "use_tpu" is setted False.
 - name: Number gpu cores
   type: Integer
+  default: 4
   description: Only used if `use_gpu` is True. Total number of GPU cores to use. Defaut use all avialble GPUs.
 - name: Use fp16
   type: Boolean

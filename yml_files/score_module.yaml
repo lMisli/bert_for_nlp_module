@@ -8,10 +8,12 @@ inputs:
 
 - name: Input test data
   type: TabularDataFolder
+  port: True
   description: Test data path.
 
 - name: Trained model
   type: ModelFolder
+  port: True
   description: Directory saved the trained model.
 
 - name: Predict column names

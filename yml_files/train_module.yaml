@@ -8,15 +8,18 @@ inputs:
 
 - name: Input train data
   type: TabularDataFolder
+  port: True
   description: Train data path.
 
 - name: Pre-trained BERT
   type: ModelFolder
+  port: True
   description: Directory contains all kinds of pre-trained bert.
 
 
 - name: Custom layer
-  type: CustomLayerFolder
+  type: GenericFolder
+  port: True
   description: Directory of custom added layer config file.
 
 - name: Train column names

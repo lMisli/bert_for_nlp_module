@@ -21,7 +21,7 @@ inputs:
 outputs:
 
   - name: Custom layer
-    type: CustomLayerFolder
+    type: GenericFolder
     description: Directory to save custom added layer config file.
 
 implementation:

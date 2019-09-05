@@ -40,15 +40,15 @@ implementation:
           - nltk
           - matplotlib
           - git+https://github.com/lMisli/bert_for_nlp_module.git
-    command:
-    - python
-    - -m
-    - func_modules.bert_url_module
-    args:
-      - --language
-      - inputValue: Language
-      - --uncased
-      - inputValue: Uncased
-      - --out_model_dir
-      - outputPath: Pre-trained BERT
+      command:
+      - python
+      - -m
+      - func_modules.bert_url_module
+      args:
+        - --language
+        - inputValue: Language
+        - --uncased
+        - inputValue: Uncased
+        - --out_model_dir
+        - outputPath: Pre-trained BERT
 

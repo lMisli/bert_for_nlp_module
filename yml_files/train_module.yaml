@@ -17,11 +17,11 @@ inputs:
   description: Directory of custom added layer config file.
 - name: Train column names
   type: String
-  defaut: comment_text
+  defaut: "comment_text"
   description: Content columns (X). Separate by space, such as col1 col2.
 - name: Label column name
   type: String
-  default: toxic severe_toxic obscene threat insult identity_hate
+  default: "toxic severe_toxic obscene threat insult identity_hate"
   description: Label columns used to learn (Y),Separate by space, such as col1 col2.
 - name: Do lower case
   type: Boolean
@@ -60,7 +60,7 @@ inputs:
   default: True
   description: Whether to use GPU. when True the `use_gpu` is setted False.
 - name: Number gpu cores
-  type: Integer
+  type: Int
   default: 4
   description: Only used if `use_gpu` is True. Total number of GPU cores to use. Defaut use all avialble GPUs.
 - name: Use fp16

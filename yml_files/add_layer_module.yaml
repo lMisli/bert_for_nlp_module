@@ -37,15 +37,15 @@ implementation:
           - nltk
           - matplotlib
           - git+https://github.com/lMisli/bert_for_nlp_module.git
-    command:
-      - python
-      - -m
-      - func_modules.add_layer_module
-    args:
-      - --layer_name
-      - inputValue: Layer name
-      - --output_dir
-      - outputPath: Custom layer
+      command:
+        - python
+        - -m
+        - func_modules.add_layer_module
+      args:
+        - --layer_name
+        - inputValue: Layer name
+        - --output_dir
+        - outputPath: Custom layer
 
 
 

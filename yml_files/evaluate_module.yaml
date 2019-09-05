@@ -17,11 +17,11 @@ inputs:
     description: Whether to calculate receiver operating characteristic(ROC).
   - name: Label column names
     type: String
-    default: null
+    default: " "
     description: Optional, label columns,the order should responding to probability_columns. Separated by space , such as col1 col2, default=label*.
   - name: Probability column names
     type: String
-    default: null
+    default: " "
     description: Optional, probability columns, the order should responding to label columns. Separated by space , such as col1 col2, if None, default=probability*.
 outputs:
   - name: Output evaluate results
@@ -48,23 +48,23 @@ implementation:
           - nltk
           - matplotlib
           - git+https://github.com/lMisli/bert_for_nlp_module.git
-    command:
-    - python
-    - -m
-    - func_modules.evaluate_module
-    args:
-      - --input_data
-      - inputValue: Input evaluate data
-      - --pr
-      - inputValue: PR
-      - --roc
-      - inputValue: roc
-      - --label_columns
-      - inputValue: Label column names
-      - --probability_columns
-      - inputValue: Probability column names
-      - --output_dir
-      - outputPath: Output evaluate results
+      command:
+      - python
+      - -m
+      - func_modules.evaluate_module
+      args:
+        - --input_data
+        - inputValue: Input evaluate data
+        - --pr
+        - inputValue: PR
+        - --roc
+        - inputValue: roc
+        - --label_columns
+        - inputValue: Label column names
+        - --probability_columns
+        - inputValue: Probability column names
+        - --output_dir
+        - outputPath: Output evaluate results
 
 
 

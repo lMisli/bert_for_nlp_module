@@ -13,7 +13,7 @@ inputs:
   description: Directory saved the trained model.
 - name: Predict column names
   type: String
-  defaut: comment_text
+  defaut: "comment_text"
   description: Content columns (X) used to predict. Separate by space, such as col1 col2.
 - name: Predict batch size
   type: Int
@@ -56,26 +56,26 @@ implementation:
           - nltk
           - matplotlib
           - git+https://github.com/lMisli/bert_for_nlp_module.git
-    command:
-    - python
-    - -m
-    - func_modules.predict_module
-    args:
-      - --test_data
-      - inputValue: Input test data
-      - --predict_column_names
-      - inputValue: Predict column names
-      - --trained_model_dir
-      - inputValue: Trained model
-      - --predict_batch_size
-      - inputValue: Predict batch size
-      - --use_gpu
-      - inputValue: Use gpu
-      - --num_gpu_cores
-      - inputValue: Number gpu cores
-      - --use_fp16
-      - inputValue: Use fp16
-      - --output_dir
-      - outputPath: Output scored results
+      command:
+      - python
+      - -m
+      - func_modules.predict_module
+      args:
+        - --test_data
+        - inputValue: Input test data
+        - --predict_column_names
+        - inputValue: Predict column names
+        - --trained_model_dir
+        - inputValue: Trained model
+        - --predict_batch_size
+        - inputValue: Predict batch size
+        - --use_gpu
+        - inputValue: Use gpu
+        - --num_gpu_cores
+        - inputValue: Number gpu cores
+        - --use_fp16
+        - inputValue: Use fp16
+        - --output_dir
+        - outputPath: Output scored results
 
 

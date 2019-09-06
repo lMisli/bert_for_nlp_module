@@ -12,8 +12,8 @@ inputs:
   port: True
   description: Directory saved the trained model.
 - name: Predict column names
-  type: String
-  defaut: "comment_text"
+  type: Stringl
+  default: "comment_text"
   description: Content columns (X) used to predict. Separate by space, such as col1 col2.
 - name: Predict batch size
   type: Int

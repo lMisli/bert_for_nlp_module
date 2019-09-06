@@ -5,7 +5,7 @@ description: Select custom layer.
 inputs:
   - name: Layer name
     type: Mode
-    defaut: 'multi-label-classifier'
+    default: 'multi-label-classifier'
     description: Custom layer to choose.
     options:
       - 'regressor'

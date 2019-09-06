@@ -17,7 +17,7 @@ inputs:
   description: Directory of custom added layer config file.
 - name: Train column names
   type: String
-  defaut: "comment_text"
+  default: "comment_text"
   description: Content columns (X). Separate by space, such as col1 col2.
 - name: Label column name
   type: String
